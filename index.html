@@ -938,8 +938,8 @@
   });
 
   // ---- Enviar por correo (FormSubmit, sin backend) ----
-  var ADMIN_EMAIL = "capelanus@gmail.com";
-  var FORM_ENDPOINT = "https://formsubmit.co/ajax/" + ADMIN_EMAIL;
+  // Alias de FormSubmit (oculta el correo real del código público)
+  var FORM_ENDPOINT = "https://formsubmit.co/ajax/4eae380b817e9c48c55209476ba668aa";
   var sendStatus = document.getElementById("sendStatus");
   var senderName = document.getElementById("senderName");
   try { senderName.value = localStorage.getItem("aoac_sender") || ""; } catch (e) {}
