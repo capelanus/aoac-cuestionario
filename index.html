@@ -218,6 +218,15 @@
   .sender-field label { display:block; font-weight:600; font-size:14px; margin-bottom:6px; }
   .sender-field input { width:100%; font-family:var(--font-sans); font-size:15px; color:var(--ink); background:var(--ground); border:1.5px solid var(--line); border-radius:10px; padding:11px 13px; }
   .sender-field input:focus { outline:none; border-color:var(--focus); box-shadow:0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent); }
+  .hero-name { margin-top: 20px; }
+  .btn-sm { padding: 9px 16px; font-size: 13.5px; }
+  .block-footer { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:24px; padding-top:18px; border-top:1px dashed var(--line); }
+  .block-status { font-size:13px; color:var(--ink-muted); }
+  .block-status.ok { color:var(--ok); font-weight:600; }
+  .block-status.changed { color:var(--accent); font-weight:600; }
+  .block-status.err { color:var(--accent); font-weight:600; }
+  .rail a.sent .dot { background: var(--ok); box-shadow:0 0 0 3px color-mix(in srgb, var(--ok) 18%, transparent); }
+  .rail a.changed .dot { background: var(--accent); }
 
   footer.meta { grid-column: 1 / -1; text-align: center; color: var(--ink-muted); font-size: 12.5px; margin-top: 34px; }
   footer.meta a { color: var(--accent); }
@@ -254,7 +263,11 @@
         <span><i class="swatch" style="background:color-mix(in srgb, var(--primary) 40%, var(--surface));border:1px solid var(--primary)"></i> ✎ Borrador · revísalo</span>
         <span><i class="swatch" style="background:var(--ok)"></i> ✓ Ajustado por ti</span>
       </div>
-      <div class="note"><span>💾</span><span><b>Autoguardado activo.</b> Los borradores ya están cargados; edítalos con libertad. Nada se envía a ningún servidor: al final exportas tú mismo el documento.</span></div>
+      <div class="note"><span>💾</span><span><b>Se guarda solo en tu navegador.</b> Puedes cerrar y volver otro día sin perder nada. Cuando termines un bloque, pulsa <b>“Enviar este bloque”</b> al final de la sección y le llega al equipo por correo. No hace falta completar todo de una vez.</span></div>
+      <div class="sender-field hero-name">
+        <label for="senderName">¿Cómo te llamas? (para saber quién responde)</label>
+        <input type="text" id="senderName" placeholder="Ej.: Luis Fernández" autocomplete="name">
+      </div>
     </header>
 
     <nav class="rail" aria-label="Secciones">
@@ -266,14 +279,10 @@
     </main>
 
     <section class="export" id="exportPanel">
-      <h2>Enviar respuestas</h2>
-      <p>Cuando termines, pulsa <b>Enviar mis respuestas</b> y le llegarán por correo al equipo automáticamente. Como respaldo, también puedes copiarlas o descargarlas. Los borradores sin tocar se marcan como “por revisar” y las preguntas de esencia sin responder como “pendientes”.</p>
-      <div class="sender-field">
-        <label for="senderName">Tu nombre (para saber quién responde)</label>
-        <input type="text" id="senderName" placeholder="Ej.: Luis Fernández" autocomplete="name">
-      </div>
+      <h2>Enviar todo de una vez</h2>
+      <p>Puedes enviar <b>bloque por bloque</b> con el botón al final de cada sección (perfecto para avanzar en varios días). O envía <b>todo junto</b> desde aquí. Como respaldo, también puedes copiar o descargar. Los borradores sin tocar se marcan como “por revisar”.</p>
       <div class="actions">
-        <button class="btn btn-primary" id="sendBtn">📧 Enviar mis respuestas</button>
+        <button class="btn btn-primary" id="sendBtn">📧 Enviar TODO</button>
         <button class="btn btn-ghost" id="copyBtn">📋 Copiar todo</button>
         <button class="btn btn-ghost" id="downloadBtn">⬇︎ Descargar (.md)</button>
         <button class="btn btn-ghost" id="refreshBtn">↻ Actualizar vista previa</button>
@@ -695,10 +704,12 @@
 
   var data = loadData();
   var QMAP = {};          // key -> question
+  var SECTION_BY_ID = {}; // id -> section
   var essenceKeys = [];   // keys of essence questions
 
   // Seed drafts for questions not yet answered by the user.
   SECTIONS.forEach(function (s) {
+    SECTION_BY_ID[s.id] = s;
     s.questions.forEach(function (q) {
       var key = s.id + "." + q.id;
       QMAP[key] = q;
@@ -789,6 +800,22 @@
       sec.appendChild(wrap);
     });
 
+    var bfooter = document.createElement("div");
+    bfooter.className = "block-footer";
+    var bbtn = document.createElement("button");
+    bbtn.type = "button";
+    bbtn.className = "btn btn-primary btn-sm";
+    bbtn.textContent = "📧 Enviar este bloque";
+    (function (sectionRef, idxRef, buttonRef) {
+      buttonRef.addEventListener("click", function () { sendBlock(sectionRef, idxRef, buttonRef); });
+    })(section, si, bbtn);
+    var bstat = document.createElement("span");
+    bstat.className = "block-status";
+    bstat.setAttribute("data-status-for", section.id);
+    bfooter.appendChild(bbtn);
+    bfooter.appendChild(bstat);
+    sec.appendChild(bfooter);
+
     root.appendChild(sec);
   });
 
@@ -822,6 +849,8 @@
     else wrap.classList.remove("filled");
     renderBadge(wrap, QMAP[key], e.target.value);
     updateProgress();
+    var secId = key.indexOf(".") > -1 ? key.slice(0, key.indexOf(".")) : key;
+    if (SECTION_BY_ID[secId]) updateBlockStatus(SECTION_BY_ID[secId]);
 
     if (saveTimer) clearTimeout(saveTimer);
     saveTimer = setTimeout(function () { persist(); flashSaved(); }, 500);
@@ -879,6 +908,24 @@
   });
 
   // ---- Export ----
+  function sectionMarkdown(section, si) {
+    var lines = [];
+    lines.push("## " + (si + 1) + ". " + section.title);
+    lines.push("_" + section.page + "_");
+    lines.push("");
+    section.questions.forEach(function (q) {
+      var key = section.id + "." + q.id;
+      var v = (data[key] || "").trim();
+      var sug = (q.suggested || "").trim();
+      var tag = "";
+      if (q.essence && !v) tag = " _(pendiente — tu voz)_";
+      else if (q.suggested && v && v === sug) tag = " _(borrador por revisar)_";
+      lines.push("**" + q.label + "**" + tag);
+      lines.push(v ? v : "_(pendiente)_");
+      lines.push("");
+    });
+    return lines.join("\n");
+  }
   function buildMarkdown() {
     var lines = [];
     lines.push("# Respuestas — Nueva web AOAC LATAM & Caribbean");
@@ -886,25 +933,69 @@
     var answered = 0;
     essenceKeys.forEach(function (k) { if (data[k] && data[k].trim()) answered++; });
     lines.push("_Esencia respondida: " + answered + " de " + essenceKeys.length + " preguntas clave._");
-    lines.push("_Nota: las respuestas marcadas como “borrador por revisar” son sugerencias generadas a partir de información pública; hay que verificarlas antes de publicar._");
+    lines.push("_Nota: los “borrador por revisar” son sugerencias generadas a partir de información pública; hay que verificarlas antes de publicar._");
     lines.push("");
-    SECTIONS.forEach(function (s, si) {
-      lines.push("## " + (si + 1) + ". " + s.title);
-      lines.push("_" + s.page + "_");
-      lines.push("");
-      s.questions.forEach(function (q) {
-        var key = s.id + "." + q.id;
-        var v = (data[key] || "").trim();
-        var sug = (q.suggested || "").trim();
-        var tag = "";
-        if (q.essence && !v) tag = " _(pendiente — tu voz)_";
-        else if (q.suggested && v && v === sug) tag = " _(borrador por revisar)_";
-        lines.push("**" + q.label + "**" + tag);
-        lines.push(v ? v : "_(pendiente)_");
-        lines.push("");
-      });
-    });
+    SECTIONS.forEach(function (s, si) { lines.push(sectionMarkdown(s, si)); lines.push(""); });
     return lines.join("\n");
+  }
+
+  // ---- Envío por bloques ----
+  var SENT_KEY = "aoac_sentState";
+  var sentState = (function () { try { return JSON.parse(localStorage.getItem(SENT_KEY)) || {}; } catch (e) { return {}; } })();
+  function persistSent() { try { localStorage.setItem(SENT_KEY, JSON.stringify(sentState)); } catch (e) {} }
+  function hashStr(s) { var h = 5381, i = s.length; while (i) { h = (h * 33) ^ s.charCodeAt(--i); } return (h >>> 0).toString(16); }
+  function sectionSignature(section) {
+    var parts = [];
+    section.questions.forEach(function (q) { parts.push(q.id + "=" + (data[section.id + "." + q.id] || "")); });
+    return hashStr(parts.join("||"));
+  }
+  function fmtTime(iso) {
+    try { return new Date(iso).toLocaleString("es", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }); }
+    catch (e) { return ""; }
+  }
+  function markSectionSent(section) { sentState[section.id] = { at: new Date().toISOString(), hash: sectionSignature(section) }; }
+  function updateBlockStatus(section) {
+    var el = document.querySelector('[data-status-for="' + section.id + '"]');
+    var link = railList.querySelector('a[data-sec="' + section.id + '"]');
+    if (link) link.classList.remove("sent", "changed");
+    if (!el) return;
+    var rec = sentState[section.id];
+    if (!rec) { el.className = "block-status"; el.textContent = "Aún no enviado"; return; }
+    if (sectionSignature(section) === rec.hash) {
+      el.className = "block-status ok"; el.textContent = "✓ Enviado (" + fmtTime(rec.at) + ")";
+      if (link) link.classList.add("sent");
+    } else {
+      el.className = "block-status changed"; el.textContent = "● Enviado antes — tienes cambios nuevos sin enviar";
+      if (link) link.classList.add("changed");
+    }
+  }
+  function sendBlock(section, si, btn) {
+    var nombre = (document.getElementById("senderName").value || "").trim() || "Sin nombre";
+    var el = document.querySelector('[data-status-for="' + section.id + '"]');
+    persist();
+    if (el) { el.className = "block-status busy"; el.textContent = "Enviando…"; }
+    btn.disabled = true;
+    fetch(FORM_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        _subject: "AOAC — Bloque " + (si + 1) + ": " + section.title + " — " + nombre,
+        _template: "box",
+        nombre: nombre,
+        bloque: (si + 1) + ". " + section.title,
+        respuestas: sectionMarkdown(section, si)
+      })
+    })
+    .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }, function () { return { ok: r.ok, j: {} }; }); })
+    .then(function (res) {
+      if (res.ok && (res.j.success === true || res.j.success === "true")) {
+        markSectionSent(section); persistSent(); updateBlockStatus(section);
+      } else if (el) {
+        el.className = "block-status err"; el.textContent = "No se pudo enviar. Reintenta o usa Descargar (.md). (" + (res.j.message || "error") + ")";
+      }
+    })
+    .catch(function () { if (el) { el.className = "block-status err"; el.textContent = "Sin conexión. Reintenta en un momento."; } })
+    .then(function () { btn.disabled = false; });
   }
 
   function refreshPreview() { preview.textContent = buildMarkdown(); }
@@ -969,7 +1060,10 @@
     .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }, function () { return { ok: r.ok, j: {} }; }); })
     .then(function (res) {
       if (res.ok && (res.j.success === true || res.j.success === "true")) {
-        setSendStatus("ok", "✅ ¡Enviado! Tus respuestas llegaron al equipo. Muchas gracias.");
+        SECTIONS.forEach(function (s) { markSectionSent(s); });
+        persistSent();
+        SECTIONS.forEach(updateBlockStatus);
+        setSendStatus("ok", "✅ ¡Enviado TODO! Tus respuestas llegaron al equipo. Muchas gracias.");
       } else {
         setSendStatus("err", "No se pudo enviar automáticamente. Usa “Descargar (.md)” y envíalo por correo. Detalle: " + (res.j.message || "error desconocido"));
       }
@@ -998,8 +1092,11 @@
       if (f.value.trim()) wrap.classList.add("filled"); else wrap.classList.remove("filled");
       renderBadge(wrap, QMAP[key], f.value);
     });
+    sentState = {};
+    persistSent();
     updateProgress();
     refreshPreview();
+    SECTIONS.forEach(updateBlockStatus);
   });
 
   // ---- Essence-only filter ----
@@ -1037,6 +1134,7 @@
   // ---- init ----
   updateProgress();
   refreshPreview();
+  SECTIONS.forEach(updateBlockStatus);
 })();
 </script>
 </body>
