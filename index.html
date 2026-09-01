@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Cuestionario de contenido para la nueva web de la AOAC LATAM & Caribbean Section.">
+<title>Cuestionario de Contenido — Nueva Web AOAC LATAM & Caribbean</title>
+<style>
+  :root {
+    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+    --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+
+    --ground: #F5F6FA;
+    --surface: #FFFFFF;
+    --surface-2: #ECEDF4;
+    --ink: #1E1F33;
+    --ink-muted: #565A78;
+    --line: #DBDDEA;
+    --primary: #2A2C57;
+    --primary-strong: #1E1F33;
+    --accent: #CA493B;
+    --accent-strong: #BE4734;
+    --ok: #1F8A5B;
+    --info-soft: #EDEFF9;
+    --focus: #4A4E8C;
+    --cta-bg: #2A2C57;
+    --cta-fg: #FFFFFF;
+    --cta-bg-hover: #1E1F33;
+    --shadow: 0 1px 2px rgba(30,31,51,.05), 0 8px 24px rgba(30,31,51,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #121328;
+      --surface: #1E1F3A;
+      --surface-2: #2A2C57;
+      --ink: #ECEEF7;
+      --ink-muted: #A0A4C6;
+      --line: #34365E;
+      --primary: #8488D6;
+      --primary-strong: #A9ADE8;
+      --accent: #E86A5A;
+      --accent-strong: #F07C6D;
+      --ok: #4FC58A;
+      --info-soft: #21234A;
+      --focus: #8488D6;
+      --cta-bg: #4E52A0;
+      --cta-fg: #FFFFFF;
+      --cta-bg-hover: #5E62B4;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #F5F6FA; --surface: #FFFFFF; --surface-2: #ECEDF4; --ink: #1E1F33;
+    --ink-muted: #565A78; --line: #DBDDEA; --primary: #2A2C57; --primary-strong: #1E1F33;
+    --accent: #CA493B; --accent-strong: #BE4734; --ok: #1F8A5B; --info-soft: #EDEFF9; --focus: #4A4E8C;
+    --cta-bg: #2A2C57; --cta-fg: #FFFFFF; --cta-bg-hover: #1E1F33;
+    --shadow: 0 1px 2px rgba(30,31,51,.05), 0 8px 24px rgba(30,31,51,.08);
+  }
+  :root[data-theme="dark"] {
+    --ground: #121328; --surface: #1E1F3A; --surface-2: #2A2C57; --ink: #ECEEF7;
+    --ink-muted: #A0A4C6; --line: #34365E; --primary: #8488D6; --primary-strong: #A9ADE8;
+    --accent: #E86A5A; --accent-strong: #F07C6D; --ok: #4FC58A; --info-soft: #21234A; --focus: #8488D6;
+    --cta-bg: #4E52A0; --cta-fg: #FFFFFF; --cta-bg-hover: #5E62B4;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .app {
+    font-family: var(--font-sans);
+    background: var(--ground);
+    color: var(--ink);
+    line-height: 1.55;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Sticky header + progress ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 1120px; margin: 0 auto; padding: 12px 24px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; }
+  .brand .mark {
+    font-family: var(--font-serif); font-weight: 700; font-size: 20px;
+    letter-spacing: -.01em; color: var(--primary);
+  }
+  .brand .bar-tick { color: var(--accent); font-weight: 700; }
+  .brand .sub {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .14em;
+    color: var(--ink-muted); font-weight: 600;
+  }
+  .progress-wrap { display: flex; align-items: center; gap: 10px; min-width: 210px; }
+  .plabel { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); font-weight: 700; }
+  .bar { flex: 1; min-width: 90px; height: 7px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width .4s ease; }
+  .pct { font-family: var(--font-mono); font-size: 13px; font-variant-numeric: tabular-nums; color: var(--ink-muted); min-width: 3em; text-align: right; }
+  .topbtn {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-muted);
+    height: 34px; border-radius: 9px; cursor: pointer; font-size: 13px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; font-family: var(--font-sans);
+  }
+  .topbtn.icon { width: 34px; padding: 0; justify-content: center; font-size: 15px; }
+  .topbtn:hover { color: var(--primary); border-color: var(--primary); }
+  .topbtn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* ---------- Layout ---------- */
+  .shell { max-width: 1120px; margin: 0 auto; padding: 0 24px 120px; display: grid; grid-template-columns: 232px 1fr; gap: 40px; }
+  @media (max-width: 860px) { .shell { grid-template-columns: 1fr; gap: 0; } }
+
+  /* ---------- Hero ---------- */
+  .hero { grid-column: 1 / -1; padding: 52px 0 30px; border-bottom: 1px solid var(--line); margin-bottom: 36px; }
+  .eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .16em; color: var(--accent); font-weight: 700; margin-bottom: 14px; }
+  .hero h1 {
+    font-family: var(--font-serif); font-weight: 700; letter-spacing: -.015em;
+    font-size: clamp(28px, 4.6vw, 46px); line-height: 1.08; margin: 0 0 18px;
+    text-wrap: balance; max-width: 18ch;
+  }
+  .hero p { font-size: 17px; color: var(--ink-muted); max-width: 62ch; margin: 0 0 10px; }
+  .hero .note {
+    margin-top: 22px; font-size: 14px; background: var(--info-soft); color: var(--ink);
+    border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+    padding: 12px 16px; border-radius: 10px; max-width: 62ch; display: flex; gap: 10px; align-items: flex-start;
+  }
+  .hero .note b { color: var(--primary); }
+  .hero .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 18px; font-size: 12.5px; color: var(--ink-muted); }
+  .hero .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+
+  /* ---------- Section nav (sticky rail) ---------- */
+  nav.rail { position: sticky; top: 82px; align-self: start; height: max-content; }
+  @media (max-width: 860px) { nav.rail { position: static; margin-bottom: 8px; } }
+  .rail ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+  @media (max-width: 860px) { .rail ol { flex-direction: row; overflow-x: auto; gap: 8px; padding-bottom: 8px; } }
+  .rail a {
+    display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink-muted);
+    font-size: 13.5px; padding: 7px 10px; border-radius: 8px; white-space: nowrap; border: 1px solid transparent;
+  }
+  .rail a:hover { background: var(--surface-2); color: var(--ink); }
+  .rail a.active { color: var(--primary); background: var(--surface); border-color: var(--line); font-weight: 600; }
+  .rail a .num { font-family: var(--font-mono); font-size: 11px; opacity: .7; min-width: 1.4em; }
+  .rail a .star { color: var(--accent); font-size: 11px; }
+  .rail a .dot { width: 8px; height: 8px; border-radius: 99px; background: var(--line); margin-left: auto; flex: none; }
+  .rail a.done .dot { background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 18%, transparent); }
+
+  /* ---------- Sections ---------- */
+  main { min-width: 0; }
+  .section { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 30px 32px; margin-bottom: 22px; box-shadow: var(--shadow); scroll-margin-top: 90px; }
+  .section.priority { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent), var(--shadow); }
+  @media (max-width: 520px) { .section { padding: 22px 18px; } }
+  .section-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .section-num { font-family: var(--font-serif); font-size: 30px; font-weight: 700; color: color-mix(in srgb, var(--primary) 70%, var(--ink-muted)); line-height: 1; font-variant-numeric: tabular-nums; }
+  .section.priority .section-num { color: var(--accent); }
+  .section h2 { font-size: 21px; letter-spacing: -.01em; margin: 0; }
+  .section-desc { color: var(--ink-muted); font-size: 14.5px; margin: 4px 0 24px; max-width: 64ch; }
+  .section-desc .page-tag { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent); padding: 2px 8px; border-radius: 6px; margin-top: 8px; }
+
+  .q { margin-bottom: 22px; }
+  .q:last-child { margin-bottom: 4px; }
+  .q.is-essence { border-left: 3px solid var(--accent); padding-left: 15px; }
+  .q label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+  .qbadge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; letter-spacing: .01em; padding: 2px 9px; border-radius: 99px; margin-bottom: 8px; }
+  .qbadge.essence { color: #fff; background: var(--accent); }
+  .qbadge.draft { color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface)); border: 1px solid color-mix(in srgb, var(--primary) 26%, transparent); }
+  .qbadge.edited { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--ok) 34%, transparent); }
+  .qbadge.todo { color: var(--ink-muted); background: var(--surface-2); border: 1px solid var(--line); }
+  .q .hint { font-size: 13px; color: var(--ink-muted); margin: 0 0 10px; }
+  .q .hint b { color: var(--primary); font-weight: 600; }
+  .q input[type="text"], .q textarea {
+    width: 100%; font-family: var(--font-sans); font-size: 15px; color: var(--ink);
+    background: var(--ground); border: 1.5px solid var(--line); border-radius: 10px;
+    padding: 11px 13px; resize: vertical; transition: border-color .15s, box-shadow .15s;
+  }
+  .q textarea { min-height: 88px; line-height: 1.5; }
+  .q textarea.long { min-height: 130px; }
+  .q input:focus, .q textarea:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent); }
+  .q.filled input, .q.filled textarea { border-color: color-mix(in srgb, var(--primary) 45%, var(--line)); background: var(--surface); }
+
+  /* ---------- Essence-only filter ---------- */
+  .app.essence-only .section:not(.has-essence) { display: none; }
+  .app.essence-only .q:not(.is-essence) { display: none; }
+  .app.essence-only .rail a:not(.has-essence-link) { display: none; }
+  .filter-banner { grid-column: 1 / -1; display: none; align-items: center; gap: 10px; background: color-mix(in srgb, var(--accent) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); color: var(--ink); padding: 11px 16px; border-radius: 10px; font-size: 13.5px; margin-bottom: 18px; }
+  .app.essence-only .filter-banner { display: flex; }
+  .filter-banner b { color: var(--accent); }
+
+  /* ---------- Save status ---------- */
+  .saver { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); z-index: 60; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s; background: var(--primary); color: #fff; font-size: 13px; padding: 8px 16px; border-radius: 99px; box-shadow: var(--shadow); }
+  .saver.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ---------- Export panel ---------- */
+  .export { grid-column: 1 / -1; background: linear-gradient(180deg, var(--surface), var(--surface-2)); border: 1px solid var(--line); border-radius: 16px; padding: 30px 32px; box-shadow: var(--shadow); }
+  .export h2 { font-family: var(--font-serif); font-size: 24px; margin: 0 0 8px; letter-spacing: -.01em; }
+  .export p { color: var(--ink-muted); font-size: 14.5px; margin: 0 0 20px; max-width: 64ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
+  .btn { font-family: var(--font-sans); font-size: 14.5px; font-weight: 600; border-radius: 10px; padding: 12px 20px; cursor: pointer; border: 1.5px solid transparent; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-primary { background: var(--cta-bg); color: var(--cta-fg); }
+  .btn-primary:hover { background: var(--cta-bg-hover); }
+  .btn-ghost { background: var(--surface); color: var(--ink); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+  .btn-danger { background: transparent; color: var(--ink-muted); border-color: var(--line); }
+  .btn-danger:hover { color: var(--accent); border-color: var(--accent); }
+  .btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--focus) 45%, transparent); outline-offset: 2px; }
+  .preview { width: 100%; min-height: 200px; max-height: 380px; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.6; color: var(--ink); background: var(--ground); border: 1.5px solid var(--line); border-radius: 12px; padding: 16px; overflow: auto; white-space: pre-wrap; }
+
+  footer.meta { grid-column: 1 / -1; text-align: center; color: var(--ink-muted); font-size: 12.5px; margin-top: 34px; }
+  footer.meta a { color: var(--accent); }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="mark">AOAC<span class="bar-tick">·</span></span>
+        <span class="sub">LATAM &amp; Caribbean</span>
+      </div>
+      <div class="progress-wrap" title="Tu aporte esencial: preguntas ⭐ Esencia respondidas">
+        <span class="plabel">Esencia</span>
+        <div class="bar"><i id="barFill"></i></div>
+        <span class="pct" id="pctLabel">0/0</span>
+      </div>
+      <button class="topbtn" id="essenceBtn" aria-pressed="false">⭐ Solo Esencia</button>
+      <button class="topbtn icon" id="themeBtn" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
+    </div>
+  </div>
+
+  <div class="shell">
+    <header class="hero">
+      <div class="eyebrow">Cuestionario de contenido · Rediseño 2026</div>
+      <h1>La esencia de la AOAC, en tus palabras</h1>
+      <p>Ya redactamos <b>borradores para la mayoría de las preguntas</b>, a partir de la información pública de la sección y de Cetox. En esas solo tienes que leer y ajustar lo que no cuadre — o dejarlas como están.</p>
+      <p>Concentra tu energía en las preguntas marcadas <b style="color:var(--accent)">⭐ Esencia</b>: ahí no buscamos datos generales, sino <b>tu voz</b> — lo que solo tú puedes contar. Empieza por la primera sección. Con el botón <b>“Solo Esencia”</b> arriba puedes ver únicamente esas.</p>
+      <div class="hero legend">
+        <span><i class="swatch" style="background:var(--accent)"></i> ⭐ Esencia · tu voz</span>
+        <span><i class="swatch" style="background:color-mix(in srgb, var(--primary) 40%, var(--surface));border:1px solid var(--primary)"></i> ✎ Borrador · revísalo</span>
+        <span><i class="swatch" style="background:var(--ok)"></i> ✓ Ajustado por ti</span>
+      </div>
+      <div class="note"><span>💾</span><span><b>Autoguardado activo.</b> Los borradores ya están cargados; edítalos con libertad. Nada se envía a ningún servidor: al final exportas tú mismo el documento.</span></div>
+    </header>
+
+    <nav class="rail" aria-label="Secciones">
+      <ol id="railList"></ol>
+    </nav>
+
+    <main id="formRoot">
+      <div class="filter-banner"><span>⭐</span><span>Estás viendo <b>solo las preguntas de Esencia</b>. Pulsa “Ver todo” arriba para revisar también los borradores.</span></div>
+    </main>
+
+    <section class="export" id="exportPanel">
+      <h2>Exportar respuestas</h2>
+      <p>Genera un documento con todas tus respuestas (incluidos los borradores). Cópialo o descárgalo y envíalo a quien redactará la web. Los borradores sin tocar se marcan como “por revisar” y las preguntas de esencia sin responder como “pendientes”.</p>
+      <div class="actions">
+        <button class="btn btn-primary" id="copyBtn">📋 Copiar todo</button>
+        <button class="btn btn-ghost" id="downloadBtn">⬇︎ Descargar (.md)</button>
+        <button class="btn btn-ghost" id="refreshBtn">↻ Actualizar vista previa</button>
+        <button class="btn btn-danger" id="resetBtn">Restablecer borradores</button>
+      </div>
+      <div class="preview" id="preview" aria-live="polite"></div>
+    </section>
+
+    <footer class="meta">
+      Cuestionario interno · AOAC LATAM &amp; Caribbean Section · Presidencia: Luis Fernández Anaya · Sinergia con
+      <a href="https://cetox.com.pe" target="_blank" rel="noopener">Cetox</a>
+    </footer>
+  </div>
+
+  <div class="saver" id="saver">Guardado ✓</div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  function escapeHtml(str) {
+    return String(str == null ? "" : str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  // ---------------------------------------------------------------------------
+  // Estructura del cuestionario.
+  //  - essence: true  -> pregunta de "esencia" (la voz de Luis); resaltada.
+  //  - suggested: "..." -> borrador prellenado (revisar / ajustar).
+  //  Sin suggested y sin essence -> por completar (dato que solo Luis tiene).
+  // ---------------------------------------------------------------------------
+  var SECTIONS = [
+    {
+      id: "esencia", priority: true,
+      title: "La esencia — tu voz",
+      page: "Alma de la web (Nosotros, mensaje del presidente)",
+      desc: "Empieza aquí. Estas preguntas no tienen borrador a propósito: buscamos lo que solo tú puedes contar. Con 3–5 líneas en cada una es suficiente; escribe como hablas.",
+      questions: [
+        { id: "motivacion", type: "textarea", essence: true, long: true,
+          label: "¿Qué te llevó a aceptar la presidencia de la AOAC LATAM & Caribbean?",
+          hint: "Tu motivación personal. Da alma a la página “Nosotros” y al mensaje del presidente." },
+        { id: "revitalizar", type: "textarea", essence: true, long: true,
+          label: "Tu lema es “Revitalizar la AOAC INTERNATIONAL”. En concreto y para la región, ¿qué significa?",
+          hint: "¿Qué estaba dormido y qué quieres despertar? Es la idea-fuerza de todo el sitio." },
+        { id: "vision_personal", type: "textarea", essence: true, long: true,
+          label: "Si logras todo lo que te propones, ¿cómo se verá la sección dentro de 5 años?",
+          hint: "Píntalo como una escena concreta, no como un listado de metas." },
+        { id: "sin_seccion", type: "textarea", essence: true,
+          label: "¿Qué se perdería América Latina y el Caribe si esta sección no existiera?",
+          hint: "Responder esto deja clarísimo el “por qué importamos”." },
+        { id: "pertenencia", type: "textarea", essence: true,
+          label: "¿Qué quieres que sienta un laboratorio o un profesional al pertenecer a la AOAC LATAM?",
+          hint: "Define la promesa emocional de la membresía, más allá de los beneficios prácticos." },
+        { id: "diferenciador", type: "textarea", essence: true,
+          label: "¿Qué hace distinta a esta sección frente a otras regiones/secciones de AOAC en el mundo?",
+          hint: "Tu diferenciador. Es clave para posicionar y para no ser “una más”." },
+        { id: "espiritu", type: "textarea", essence: true,
+          label: "¿Hay una anécdota, un logro o un momento que capture el espíritu de la sección?",
+          hint: "Una historia real vale más que mil adjetivos; sirve para prensa y para la home." },
+        { id: "legado", type: "textarea", essence: true,
+          label: "¿Qué legado te gustaría dejar como presidente?",
+          hint: "Cierra la narrativa: hacia dónde llevas a la sección y qué quieres que quede." }
+      ]
+    },
+    {
+      id: "identidad",
+      title: "Identidad institucional",
+      page: "Página “Nosotros”",
+      desc: "La base de todo: quiénes son y por qué existen. Hoy esta página casi no tiene texto; aquí ya hay borradores para revisar.",
+      questions: [
+        { id: "que_es", type: "textarea", long: true,
+          label: "¿Qué es la AOAC LATAM & Caribbean Section? (texto de apertura)",
+          hint: "Sirve para <b>posicionar “AOAC Latinoamérica”</b>.",
+          suggested: "La AOAC LATAM & Caribbean Section es el capítulo regional de AOAC INTERNATIONAL para América Latina y el Caribe. Reúne a laboratorios, reguladores, industria y academia en torno a un objetivo común: adoptar y armonizar métodos analíticos validados y confiables que protejan la inocuidad de los alimentos, la salud y el ambiente en la región. Funciona como puente entre el rigor científico global de AOAC y las necesidades específicas de nuestros países." },
+        { id: "mision", type: "textarea", essence: true,
+          label: "Misión: ¿para qué existe la sección?",
+          hint: "Revísala y hazla tuya; es una de las frases más leídas del sitio.",
+          suggested: "Promover en América Latina y el Caribe el uso de métodos analíticos validados y la mejora continua de la calidad de los laboratorios, facilitando la armonización regional, la formación de talento y la cooperación entre ciencia, industria y regulación para garantizar alimentos y ambientes seguros." },
+        { id: "vision", type: "textarea", essence: true,
+          label: "Visión: ¿qué quieren lograr a 3–5 años?",
+          hint: "Conéctala con lo que escribiste en la sección de Esencia.",
+          suggested: "Ser la red de referencia en América Latina y el Caribe para la validación y armonización de métodos analíticos, reconocida por elevar los estándares de calidad y la confianza en los resultados de laboratorio en toda la región." },
+        { id: "valores", type: "textarea",
+          label: "¿Cuáles son sus valores o principios?",
+          hint: "Ajusta la lista a lo que realmente los define.",
+          suggested: "Rigor científico e imparcialidad · Independencia y transparencia · Colaboración regional · Formación y desarrollo de talento · Mejora continua de la calidad." },
+        { id: "historia", type: "textarea", long: true,
+          label: "Historia / origen de la sección LATAM & Caribbean",
+          hint: "El contenido histórico genera <b>páginas indexables y confianza</b>. Confirma los datos entre paréntesis.",
+          suggested: "La sección de América Latina y el Caribe es el brazo regional de AOAC INTERNATIONAL, una de las organizaciones de estándares analíticos más antiguas del mundo (AOAC fue fundada en 1884). Nació para acercar a la región el trabajo de validación y armonización de métodos de AOAC. (Confirmar: año de creación de la sección, quiénes la impulsaron y principales hitos.) Bajo la presidencia de Luis Fernández Anaya, la sección impulsa una etapa de revitalización, ampliando su junta, sus grupos de trabajo y sus actividades de formación." },
+        { id: "relacion_global", type: "textarea",
+          label: "¿Cómo se relaciona la sección con AOAC INTERNATIONAL (la global)?",
+          hint: "Aclararlo evita confusión y aprovecha la autoridad de la marca AOAC global.",
+          suggested: "La sección es el capítulo regional de AOAC INTERNATIONAL: adopta su marco de Métodos Oficiales de Análisis (OMA) y Métodos de Desempeño Probado (PTM), y adapta su labor de armonización, formación y colaboración a la realidad de América Latina y el Caribe, manteniendo el respaldo y los estándares de la organización global." }
+      ]
+    },
+    {
+      id: "que_es_aoac",
+      title: "Qué es AOAC y por qué importa",
+      page: "Página educativa / pilar SEO",
+      desc: "Una de las mayores oportunidades de posicionamiento: casi no hay buen contenido sobre AOAC en español. Estos borradores ya sirven como base.",
+      questions: [
+        { id: "metodos", type: "textarea", long: true,
+          label: "¿Qué son los “Métodos Oficiales de Análisis” (OMA) y por qué importan?",
+          hint: "Keywords: <b>“métodos AOAC”, “métodos oficiales de análisis”, “validación de métodos”</b>.",
+          suggested: "Los Métodos Oficiales de Análisis (Official Methods of Analysis, OMA) de AOAC son procedimientos analíticos validados mediante estudios colaborativos entre múltiples laboratorios, lo que garantiza que un resultado sea reproducible y confiable sin importar quién lo ejecute. Son reconocidos por reguladores e industria en todo el mundo. Importan porque ofrecen una base común y defendible para tomar decisiones sobre inocuidad, calidad y cumplimiento normativo." },
+        { id: "ptm", type: "textarea",
+          label: "¿Qué son las Pruebas de Competencia / métodos certificados (PTM) y a quién sirven?",
+          hint: "La web actual menciona “Pruebas Competentes” sin explicarlas.",
+          suggested: "Los Métodos de Desempeño Probado (Performance Tested Methods, PTM) y los programas de ensayos de aptitud permiten a un laboratorio demostrar, con evidencia independiente, que sus métodos y su desempeño cumplen estándares exigentes. Sirven a laboratorios, a fabricantes de kits y métodos, y a reguladores que necesitan confiar en los resultados." },
+        { id: "beneficio_region", type: "textarea",
+          label: "¿Por qué es relevante AOAC específicamente para América Latina y el Caribe?",
+          hint: "Diferencia el sitio del global.",
+          suggested: "Para América Latina y el Caribe, contar con métodos armonizados facilita el comercio de alimentos entre países, reduce barreras técnicas, fortalece la vigilancia sanitaria y eleva la confianza en los laboratorios de la región. AOAC aporta el marco de referencia; la sección lo lleva a la realidad local." },
+        { id: "glosario", type: "textarea",
+          label: "¿Qué términos técnicos deberíamos explicar en un glosario?",
+          hint: "Un glosario atrae muchas búsquedas informativas y posiciona.",
+          suggested: "Inocuidad alimentaria, método validado, estudio colaborativo, OMA, PTM, ensayo de aptitud (proficiency testing), ISO/IEC 17025, incertidumbre de medición, límite de detección y cuantificación, PFAS, micotoxinas, residuos de plaguicidas, metales pesados, espectrometría de masas." }
+      ]
+    },
+    {
+      id: "junta",
+      title: "Junta directiva y equipo",
+      page: "Página “Junta Directiva”",
+      desc: "Bios redactadas a partir de la info pública. Revísalas, corrige lo que sea impreciso y completa las fotos y LinkedIn.",
+      questions: [
+        { id: "bio_luis", type: "textarea", long: true,
+          label: "Bio — Luis Fernández Anaya (Presidente, Cetox, Perú)",
+          hint: "<b>Conviene enlazar a Cetox</b> como su laboratorio.",
+          suggested: "Luis Alberto Fernández Anaya preside la AOAC LATAM & Caribbean Section. Licenciado en Derecho y Ciencias Políticas, con estudios de doctorado en Ciencias Políticas por la Universidad Complutense de Madrid. Es director de Cetox – Centro Toxicológico S.A.C., laboratorio peruano acreditado con más de 20 años de trayectoria en análisis toxicológico y de calidad. Desde la presidencia impulsa la revitalización de la sección regional. (Confirmar cargos y trayectoria adicionales; añadir LinkedIn.)" },
+        { id: "bio_fernando", type: "textarea",
+          label: "Bio — Fernando Silva (Vicepresidente, Nestlé, Brasil)",
+          hint: "Revisar y confirmar datos.",
+          suggested: "Fernando Silva es Vicepresidente de la sección. Doctor en ciencias analíticas y gerente sénior de ciencias analíticas en Nestlé (Suiza), donde coordina soluciones analíticas globales y el análisis de riesgos de inocuidad alimentaria en los centros de calidad de la compañía. (Confirmar datos y foto.)" },
+        { id: "bio_constanza", type: "textarea",
+          label: "Bio — Constanza Vergara (Secretaria, Achipia, Chile)",
+          hint: "Revisar y confirmar datos.",
+          suggested: "Constanza Vergara es Secretaria de la sección. Médica veterinaria y candidata a doctora en ciencias veterinarias; se desempeña como asesora en medidas sanitarias y fitosanitarias en la Cancillería de Chile, con más de una década de experiencia previa en la agencia chilena de inocuidad alimentaria (ACHIPIA). (Confirmar datos y foto.)" },
+        { id: "bio_reddy", type: "textarea",
+          label: "Bio — Reddy Campos Soto (Tesorero, Cetox, Perú)",
+          hint: "Es la bio más incompleta hoy: importante completarla con Reddy.",
+          suggested: "Reddy Fortunato Campos Soto es Tesorero de la sección y forma parte del equipo de Cetox (Perú). (Falta información: formación, cargo en Cetox, trayectoria, foto y LinkedIn — completar directamente con Reddy.)" },
+        { id: "otros_miembros", type: "textarea",
+          label: "¿Hay otros miembros del comité, asesores o coordinadores por país?",
+          hint: "Cuantos más perfiles reales, mejor.",
+          suggested: "(Indicar si hay vocales, asesores científicos o coordinadores por país: nombre, cargo, país y organización de cada uno.)" },
+        { id: "fotos", type: "text",
+          label: "¿Tienes fotos profesionales y LinkedIn de cada miembro?",
+          hint: "Las fotos reales aumentan mucho la credibilidad.",
+          suggested: "(Indicar sí/no y dónde conseguir las fotos profesionales y los enlaces de LinkedIn de cada miembro.)" }
+      ]
+    },
+    {
+      id: "equipos",
+      title: "Equipos / grupos de trabajo",
+      page: "Página “Equipos de Trabajo”",
+      desc: "Hoy son solo títulos sueltos. Aquí ya hay un objetivo redactado para cada grupo; confirma responsables y actividades reales.",
+      questions: [
+        { id: "grupo_armonizacion", type: "textarea",
+          label: "Grupo “Armonización de métodos de la región”",
+          hint: "Confirmar responsable y cómo unirse.",
+          suggested: "Objetivo: impulsar la adopción de métodos analíticos comunes y comparables entre los países de la región, reduciendo las diferencias que dificultan el comercio y la vigilancia. Actividades: revisión de métodos, recomendaciones de referencia e intercambio entre laboratorios. (Confirmar responsable y forma de participar.)" },
+        { id: "grupo_jovenes", type: "textarea",
+          label: "Grupo “Formación de jóvenes científicos y estudiantes”",
+          hint: "Público joven = gran oportunidad de crecimiento y de contenido en redes.",
+          suggested: "Objetivo: formar y vincular a estudiantes y jóvenes científicos con la comunidad analítica regional mediante mentoría, charlas, becas y participación en proyectos. Es el semillero de talento y una vía de crecimiento de la sección. (Confirmar responsable y actividades concretas.)" },
+        { id: "grupo_contaminantes", type: "textarea",
+          label: "Grupo “Problemas emergentes / análisis de contaminantes”",
+          hint: "<b>Temas con alto interés de búsqueda.</b>",
+          suggested: "Objetivo: abordar los retos analíticos emergentes en el análisis de contaminantes —PFAS, residuos de plaguicidas, micotoxinas, metales pesados, entre otros— compartiendo conocimiento sobre técnicas (por ejemplo, espectrometría de masas de alta resolución) y buenas prácticas. (Confirmar responsable.)" },
+        { id: "grupo_formacion", type: "textarea",
+          label: "Grupo “Necesidades de formación y organización”",
+          hint: "¿En qué se diferencia del de jóvenes científicos?",
+          suggested: "Objetivo: identificar las necesidades de capacitación de los laboratorios y profesionales de la región y organizar la oferta formativa (cursos, talleres, webinars) que las cubra. (Confirmar alcance y responsable.)" },
+        { id: "grupo_otros", type: "textarea",
+          label: "Otros grupos de trabajo actuales o previstos",
+          hint: "",
+          suggested: "(Describir cualquier grupo adicional, actual o previsto, y su propósito.)" },
+        { id: "como_unirse", type: "textarea",
+          label: "¿Cómo puede alguien unirse a un grupo de trabajo?",
+          hint: "Un proceso claro convierte visitantes en miembros activos.",
+          suggested: "Cualquier miembro de la sección puede sumarse a un grupo de trabajo según su interés y experiencia. (Confirmar el proceso: a quién escribir, requisitos y compromiso esperado.)" }
+      ]
+    },
+    {
+      id: "membresia",
+      title: "Membresía y beneficios",
+      page: "Página “Membresía / Hazte miembro”",
+      desc: "Hoy el botón manda al sitio global. Necesitamos una página propia con el valor de asociarse desde LATAM. Borradores listos; confirma tipos y costos reales.",
+      questions: [
+        { id: "por_que", type: "textarea", essence: true, long: true,
+          label: "¿Por qué debería alguien asociarse a la AOAC LATAM & Caribbean?",
+          hint: "Probablemente el <b>CTA de conversión principal</b>. Conéctalo con lo que respondiste en “pertenencia”.",
+          suggested: "Asociarse conecta a tu laboratorio —o a ti— con la red global de estándares analíticos de AOAC INTERNATIONAL. Beneficios: acceso a métodos validados y buenas prácticas de referencia; participación en la armonización regional; formación y actualización técnica; networking con laboratorios, industria y reguladores de la región; y visibilidad dentro de una comunidad científica reconocida. (Ajustar a los beneficios reales que ofrece la sección.)" },
+        { id: "tipos", type: "textarea",
+          label: "¿Qué tipos de membresía existen y qué incluye cada una?",
+          hint: "Individual, institucional, estudiante…",
+          suggested: "AOAC ofrece membresías individuales e institucionales, además de modalidades para estudiantes. (Confirmar qué tipos aplican a la sección regional y qué incluye cada uno.)" },
+        { id: "costos", type: "textarea",
+          label: "¿Cuánto cuesta y cómo se paga? ¿Hay tarifas especiales para la región o estudiantes?",
+          hint: "La transparencia reduce fricción. No publicar cifras sin confirmarlas.",
+          suggested: "(Confirmar tarifas vigentes, moneda, forma de pago y si existen tarifas preferenciales para estudiantes o para la región.)" },
+        { id: "proceso", type: "textarea",
+          label: "¿Cuál es el paso a paso para asociarse?",
+          hint: "Un proceso claro mejora la conversión.",
+          suggested: "(Definir el paso a paso: dónde se solicita, si es a través del sitio global de AOAC o de un formulario regional, y a quién contactar. Enlace de referencia actual: aoac.org/membership.)" },
+        { id: "beneficio_cetox", type: "textarea", essence: true,
+          label: "¿Los miembros tendrán algún beneficio ligado a Cetox u otros aliados?",
+          hint: "Palanca fuerte de sinergia y conversión (descuentos, cupos en cursos).",
+          suggested: "(Definir si los miembros tendrán algún beneficio concreto ligado a Cetox u otros aliados —por ejemplo descuentos en análisis o cupos en cursos—. Es una de las formas más potentes de enlazar ambas webs y dar razones para asociarse.)" }
+      ]
+    },
+    {
+      id: "actividades",
+      title: "Actividades, cursos y servicios",
+      page: "Páginas “Eventos”, “Cursos”, “Servicios”",
+      desc: "Hoy “Eventos” dice ‘No Events’ desde 2022. Una agenda viva y un catálogo de cursos son imán de tráfico recurrente.",
+      questions: [
+        { id: "cursos", type: "textarea", long: true,
+          label: "¿Qué cursos, diplomados o capacitaciones ofrecen o quieren ofrecer?",
+          hint: "Nombre, público objetivo y modalidad.",
+          suggested: "La sección promueve capacitación técnica de alto nivel, como el Curso Internacional de Toxicología, Salud Ocupacional y Ambiental, y formación en Espectrometría de Masas de Alta Resolución para el análisis de residuos en alimentos. (Confirmar el catálogo actual, el público objetivo, la modalidad y si son propios o coorganizados.)" },
+        { id: "webinars", type: "textarea",
+          label: "¿Qué webinars o seminarios han hecho o planean? (temas y frecuencia)",
+          hint: "Un ciclo regular genera comunidad y contenido reutilizable.",
+          suggested: "Se han realizado seminarios web como “PFAS en los alimentos” (2023). (Confirmar los temas y la periodicidad de los webinars previstos; un ciclo regular fideliza y alimenta el blog.)" },
+        { id: "proficiency", type: "textarea",
+          label: "¿Ofrecen o coordinan ensayos de aptitud / pruebas de competencia entre laboratorios?",
+          hint: "Servicio muy buscado (“ensayos de aptitud”, “proficiency testing”).",
+          suggested: "(Confirmar si la sección ofrece o coordina ensayos de aptitud / pruebas de competencia entre laboratorios, de forma directa o a través de aliados.)" },
+        { id: "certificacion", type: "textarea",
+          label: "¿Ayudan con certificación/validación de métodos (Research Institute de AOAC)?",
+          hint: "",
+          suggested: "AOAC cuenta con el Research Institute, que otorga certificación independiente a métodos patentados (PTM). (Confirmar qué puede gestionar o canalizar la sección regional en este frente.)" },
+        { id: "calendario", type: "textarea",
+          label: "¿Hay eventos o cursos concretos en los próximos 6–12 meses?",
+          hint: "Mantener la agenda al día es clave para el SEO de eventos.",
+          suggested: "(Listar los eventos y cursos concretos de los próximos 6–12 meses: fecha, nombre, modalidad y enlace de inscripción.)" },
+        { id: "colaboracion_cetox", type: "textarea",
+          label: "¿Qué actividades se hacen o podrían hacerse en conjunto con Cetox?",
+          hint: "<b>Coorganizar cursos alimenta tráfico entre ambas webs.</b>",
+          suggested: "Cetox ya colabora como aliado (por ejemplo, el curso de toxicología enlaza a su blog). Se pueden coorganizar cursos, webinars técnicos y publicaciones que aporten valor a los miembros y generen tráfico entre ambas webs. (Ajustar según lo que definan.)" }
+      ]
+    },
+    {
+      id: "aliados",
+      title: "Aliados y auspiciadores",
+      page: "Página “Auspiciadores / Aliados”",
+      desc: "Hoy solo figura Cetox. Presentar aliados con logo y descripción da prestigio y crea enlaces de valor.",
+      questions: [
+        { id: "cetox_desc", type: "textarea",
+          label: "¿Cómo debe presentarse Cetox como aliado?",
+          hint: "<b>Este bloque debe enlazar a la web de Cetox.</b>",
+          suggested: "Cetox – Centro Toxicológico S.A.C. es un laboratorio peruano acreditado (INACAL, LE-044) con más de 20 años de experiencia en toxicología y servicios analíticos. Cuenta con tres laboratorios especializados —Química, Biología y Microbiología— y trabaja bajo normas NTP, USP, AOAC e ISO. Como aliado de la sección, representa el tipo de laboratorio que lleva a la práctica los estándares que promueve AOAC. (Enlazar a la web de Cetox.)" },
+        { id: "otros_aliados", type: "textarea",
+          label: "¿Qué otros auspiciadores, aliados o instituciones colaboran?",
+          hint: "Cada aliado es una oportunidad de enlace externo (SEO).",
+          suggested: "(Listar aliados: por ejemplo IICA —con quien existe un acuerdo de cooperación—, ACHIPIA, Nestlé, universidades y otros laboratorios. Indicar el tipo de vínculo y si aportan logo/enlace.)" },
+        { id: "convenios", type: "textarea",
+          label: "¿Qué convenios o acuerdos institucionales tienen vigentes?",
+          hint: "",
+          suggested: "Acuerdo General de Cooperación Técnica AOAC–IICA (2022). (Confirmar otros convenios vigentes y su alcance.)" },
+        { id: "quiero_auspiciar", type: "textarea",
+          label: "¿Qué ofrecen a una empresa que quiera auspiciar? ¿Cómo se hace?",
+          hint: "Convierte la página de auspiciadores en una oferta con CTA.",
+          suggested: "(Definir qué recibe una empresa auspiciadora —visibilidad, presencia en eventos, vínculo con la comunidad técnica— y cómo se formaliza el auspicio.)" }
+      ]
+    },
+    {
+      id: "sinergia",
+      title: "Sinergia con Cetox",
+      page: "Estrategia de enlazado cruzado",
+      desc: "Objetivo clave: que AOAC y Cetox se pasen tráfico de forma natural y creíble, apoyándose en que Luis preside AOAC y dirige Cetox.",
+      questions: [
+        { id: "rol_cetox", type: "textarea", long: true,
+          label: "¿Cuál es el rol de Cetox dentro del ecosistema AOAC en la región?",
+          hint: "Esta narrativa hace natural el enlace.",
+          suggested: "En el ecosistema de la sección, AOAC aporta la autoridad y los estándares (métodos validados) y laboratorios como Cetox los aplican en la práctica diaria, con acreditación y rigor. Esa relación —el estándar y su aplicación— hace natural y creíble el vínculo entre ambas organizaciones." },
+        { id: "que_enlazar_a_cetox", type: "textarea",
+          label: "Desde AOAC → Cetox: ¿qué tiene sentido enlazar?",
+          hint: "",
+          suggested: "La bio del presidente (su laboratorio), la ficha de auspiciadores/aliados, ejemplos de “laboratorio que aplica métodos AOAC” y los cursos coorganizados." },
+        { id: "que_enlazar_a_aoac", type: "textarea",
+          label: "Desde Cetox → AOAC: ¿qué debería enlazar la web de Cetox?",
+          hint: "Hoy la web de Cetox no menciona AOAC; añadirlo refuerza su autoridad.",
+          suggested: "Un bloque “Nuestro director preside la AOAC LATAM & Caribbean”, la mención “trabajamos con métodos validados AOAC” enlazando a la página educativa, y un enlace a la sección de membresía." },
+        { id: "contenido_conjunto", type: "textarea",
+          label: "¿Qué contenido conjunto podrían publicar?",
+          hint: "Contenido cruzado = SEO y tráfico compartido.",
+          suggested: "Artículos y webinars co-marca, por ejemplo “Cómo se valida un método de residuos de plaguicidas según AOAC — caso Cetox”, además de guías descargables y notas técnicas que posicionen a ambas y compartan tráfico." },
+        { id: "limites", type: "textarea", essence: true,
+          label: "¿Hay algún límite o cuidado en la relación AOAC–Cetox que debamos respetar?",
+          hint: "AOAC es imparcial: conviene definir cómo manejar esto para evitar conflicto de interés.",
+          suggested: "AOAC es una asociación imparcial, por lo que la relación con Cetox debe presentarse con transparencia (aliado/miembro), sin que parezca que la sección es una extensión comercial del laboratorio. (Confirmar cómo prefieres manejar este equilibrio.)" }
+      ]
+    },
+    {
+      id: "contenido_seo",
+      title: "Contenido técnico y blog (SEO)",
+      page: "Blog / Centro de recursos",
+      desc: "La mayor palanca de posicionamiento. Definamos los temas donde la sección tiene autoridad para escribir.",
+      questions: [
+        { id: "temas_dominio", type: "textarea", long: true,
+          label: "¿En qué temas técnicos tienen más autoridad para publicar?",
+          hint: "<b>Cada tema = artículos indexables.</b> Prioriza según la experiencia del equipo.",
+          suggested: "Residuos de plaguicidas en alimentos, PFAS, micotoxinas, metales pesados, inocuidad alimentaria, validación de métodos, acreditación ISO/IEC 17025, ensayos de aptitud y espectrometría de masas de alta resolución. (Marcar los prioritarios.)" },
+        { id: "preguntas_frecuentes", type: "textarea",
+          label: "¿Qué preguntas les hacen seguido laboratorios, empresas o estudiantes?",
+          hint: "Cada pregunta real puede ser un artículo que capta búsquedas.",
+          suggested: "“¿Qué es un método AOAC?”, “¿cómo se valida un método analítico?”, “¿cómo acredito mi laboratorio bajo ISO 17025?”, “¿qué es un ensayo de aptitud?”, “¿qué son los PFAS y por qué preocupan en alimentos?”. (Añadir las más frecuentes reales.)" },
+        { id: "recursos", type: "textarea",
+          label: "¿Qué recursos descargables podrían ofrecer?",
+          hint: "Los descargables captan correos (leads) y generan enlaces.",
+          suggested: "Guías descargables (por ejemplo, “cómo elegir un método validado”), listas de métodos por matriz, checklists de acreditación y plantillas." },
+        { id: "noticias", type: "textarea",
+          label: "¿Qué novedades del sector quieren cubrir con regularidad?",
+          hint: "Publicar seguido mantiene el sitio “fresco” para Google.",
+          suggested: "Cambios normativos regionales, nuevos métodos y límites, resultados de webinars y eventos de la sección." },
+        { id: "palabras_clave", type: "textarea",
+          label: "¿Con qué frases te gustaría que la web aparezca en Google?",
+          hint: "La base de la estrategia de <b>palabras clave</b>.",
+          suggested: "métodos AOAC · AOAC Latinoamérica · inocuidad alimentaria · validación de métodos analíticos · ensayos de aptitud · acreditación ISO 17025 · análisis de contaminantes en alimentos · membresía AOAC. (Añade las que uses tú.)" }
+      ]
+    },
+    {
+      id: "logros",
+      title: "Logros, hitos y casos",
+      page: "Página “Impacto / Logros”",
+      desc: "Los resultados concretos generan confianza y son excelente material para prensa y SEO. Completa con cifras y testimonios reales.",
+      questions: [
+        { id: "hitos", type: "textarea",
+          label: "¿Cuáles son los principales logros o hitos de la sección hasta hoy?",
+          hint: "",
+          suggested: "Acuerdo de Cooperación Técnica AOAC–IICA (2022); seminarios técnicos como “PFAS en los alimentos” (2023); conformación de la junta directiva y de los grupos de trabajo regionales. (Completar con más logros y cifras reales.)" },
+        { id: "casos", type: "textarea",
+          label: "¿Hay casos de éxito o testimonios de miembros / laboratorios?",
+          hint: "Testimonios reales (con nombre y organización) elevan la credibilidad.",
+          suggested: "(Recopilar 2–3 testimonios reales de miembros o laboratorios, con nombre y organización.)" },
+        { id: "metricas", type: "textarea",
+          label: "¿Tienen cifras que muestren su alcance?",
+          hint: "Miembros, países, eventos, laboratorios.",
+          suggested: "(Indicar cifras verificables: número de miembros, países representados, eventos realizados, laboratorios vinculados.)" },
+        { id: "prensa", type: "textarea",
+          label: "¿Han aparecido en medios, publicaciones o eventos internacionales?",
+          hint: "Menciones externas = autoridad y posibles enlaces entrantes.",
+          suggested: "(Listar menciones en medios, publicaciones o participación en eventos internacionales, con enlaces.)" }
+      ]
+    },
+    {
+      id: "contacto",
+      title: "Contacto y redes reales",
+      page: "Página “Contacto” + footer",
+      desc: "Los datos actuales parecen de plantilla (‘Dirección calle, distrito’; teléfono con formato extranjero). Necesitamos los reales — estos casi no tienen borrador porque solo tú los tienes.",
+      questions: [
+        { id: "email", type: "text",
+          label: "Correo(s) de contacto oficiales",
+          hint: "El actual es presidencia@aoaclatina.com.",
+          suggested: "presidencia@aoaclatina.com (confirmar si se mantiene y si habrá correos específicos de membresía o eventos)." },
+        { id: "telefono", type: "text",
+          label: "Teléfono / WhatsApp real",
+          hint: "El número actual (782.249.6400) parece incorrecto para Perú.",
+          suggested: "(Indicar el teléfono/WhatsApp real de la sección.)" },
+        { id: "direccion", type: "text",
+          label: "Dirección física real (si aplica)",
+          hint: "Una dirección real mejora el <b>SEO local</b> y la confianza.",
+          suggested: "(Dirección real o indicar si la sección opera de forma virtual.)" },
+        { id: "redes", type: "textarea",
+          label: "Redes sociales activas (LinkedIn, Instagram, X, YouTube, Facebook)",
+          hint: "LinkedIn es clave para este público técnico.",
+          suggested: "(Pegar los enlaces reales de los perfiles que sí se usan.)" },
+        { id: "responsable", type: "text",
+          label: "¿Quién responderá los mensajes y en qué plazo?",
+          hint: "Comprometer una persona y un plazo mejora la reputación.",
+          suggested: "(Definir quién responde los mensajes y en qué plazo — por ejemplo, 48 horas.)" }
+      ]
+    },
+    {
+      id: "cierre",
+      title: "Cierre y observaciones",
+      page: "General",
+      desc: "Espacio libre para lo que no encajó arriba.",
+      questions: [
+        { id: "referencias", type: "textarea",
+          label: "¿Webs de otras secciones AOAC u organizaciones que te gusten como referencia?",
+          hint: "Nos ayuda a calibrar estilo y estructura.",
+          suggested: "(Pega enlaces de webs que te gusten como referencia.)" },
+        { id: "evitar", type: "textarea",
+          label: "¿Qué cosas NO quieres que tenga la web?",
+          hint: "",
+          suggested: "Evitar el aspecto de “sitio abandonado”: secciones vacías, eventos desactualizados y datos de contacto de plantilla, como ocurre hoy. (Añade lo que no quieras.)" },
+        { id: "materiales", type: "textarea",
+          label: "¿Qué materiales ya tienes disponibles? (logos, fotos, PDFs, videos, textos)",
+          hint: "Inventario de lo que existe para no partir de cero.",
+          suggested: "(Inventario de logos, fotos, PDFs, videos y textos ya disponibles.)" },
+        { id: "libre", type: "textarea", essence: true, long: true,
+          label: "Cualquier otra cosa que quieras contar para la nueva web",
+          hint: "Texto libre — tu voz." }
+      ]
+    }
+  ];
+
+  var STORAGE_KEY = "aoac_cuestionario_v2";
+  var THEME_KEY = "aoac_cuestionario_theme";
+  var FILTER_KEY = "aoac_cuestionario_filter";
+
+  var app = document.getElementById("app");
+  var root = document.getElementById("formRoot");
+  var railList = document.getElementById("railList");
+  var barFill = document.getElementById("barFill");
+  var pctLabel = document.getElementById("pctLabel");
+  var saver = document.getElementById("saver");
+  var preview = document.getElementById("preview");
+
+  var data = loadData();
+  var QMAP = {};          // key -> question
+  var essenceKeys = [];   // keys of essence questions
+
+  // Seed drafts for questions not yet answered by the user.
+  SECTIONS.forEach(function (s) {
+    s.questions.forEach(function (q) {
+      var key = s.id + "." + q.id;
+      QMAP[key] = q;
+      if (q.essence) essenceKeys.push(key);
+      var saved = data[key];
+      if ((saved === undefined || saved === null) && q.suggested) {
+        data[key] = q.suggested;
+      }
+    });
+  });
+  persist();
+
+  // ---- Build DOM ----
+  SECTIONS.forEach(function (section, si) {
+    var num = String(si + 1).padStart(2, "0");
+    var hasEssence = section.questions.some(function (q) { return q.essence; });
+
+    // rail item
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    a.href = "#sec-" + section.id;
+    a.dataset.sec = section.id;
+    if (hasEssence) a.classList.add("has-essence-link");
+    a.innerHTML = '<span class="num">' + num + '</span><span class="txt">' +
+      escapeHtml(section.title) + '</span>' +
+      (hasEssence ? '<span class="star">★</span>' : '') +
+      '<span class="dot"></span>';
+    li.appendChild(a);
+    railList.appendChild(li);
+
+    // section card
+    var sec = document.createElement("section");
+    sec.className = "section" + (section.priority ? " priority" : "") + (hasEssence ? " has-essence" : "");
+    sec.id = "sec-" + section.id;
+
+    var head = document.createElement("div");
+    head.className = "section-head";
+    head.innerHTML = '<span class="section-num">' + num + '</span><h2>' +
+      escapeHtml(section.title) + '</h2>';
+    sec.appendChild(head);
+
+    var desc = document.createElement("p");
+    desc.className = "section-desc";
+    desc.innerHTML = escapeHtml(section.desc) +
+      '<br><span class="page-tag">Alimenta: ' + escapeHtml(section.page) + '</span>';
+    sec.appendChild(desc);
+
+    section.questions.forEach(function (q) {
+      var key = section.id + "." + q.id;
+      var wrap = document.createElement("div");
+      wrap.className = "q" + (q.essence ? " is-essence" : "");
+      wrap.dataset.key = key;
+
+      var fieldId = "f_" + section.id + "_" + q.id;
+
+      var label = document.createElement("label");
+      label.setAttribute("for", fieldId);
+      label.textContent = q.label;
+      wrap.appendChild(label);
+
+      var badge = document.createElement("span");
+      badge.className = "qbadge";
+      wrap.appendChild(badge);
+
+      if (q.hint) {
+        var hint = document.createElement("p");
+        hint.className = "hint";
+        hint.innerHTML = q.hint; // hint contains intentional <b> markup
+        wrap.appendChild(hint);
+      }
+
+      var field;
+      if (q.type === "text") {
+        field = document.createElement("input");
+        field.type = "text";
+      } else {
+        field = document.createElement("textarea");
+        if (q.long) field.className = "long";
+      }
+      field.id = fieldId;
+      field.dataset.key = key;
+      field.value = data[key] || "";
+      if (field.value.trim()) wrap.classList.add("filled");
+      field.addEventListener("input", onInput);
+      wrap.appendChild(field);
+
+      renderBadge(wrap, q, field.value);
+      sec.appendChild(wrap);
+    });
+
+    root.appendChild(sec);
+  });
+
+  function renderBadge(wrap, q, value) {
+    var b = wrap.querySelector(".qbadge");
+    if (!b) return;
+    var v = (value || "").trim();
+    if (q.essence) {
+      b.className = "qbadge essence";
+      b.textContent = q.suggested ? "⭐ Esencia · haz tuyo el borrador" : "⭐ Esencia · tu voz";
+      return;
+    }
+    if (q.suggested) {
+      var sug = (q.suggested || "").trim();
+      if (v && v !== sug) { b.className = "qbadge edited"; b.textContent = "✓ Ajustado por ti"; }
+      else { b.className = "qbadge draft"; b.textContent = "✎ Borrador · revísalo"; }
+      return;
+    }
+    if (v) { b.className = "qbadge edited"; b.textContent = "✓ Respondido"; }
+    else { b.className = "qbadge todo"; b.textContent = "○ Por completar"; }
+  }
+
+  // ---- Input handling / autosave ----
+  var saveTimer = null;
+  var saverTimer = null;
+  function onInput(e) {
+    var key = e.target.dataset.key;
+    data[key] = e.target.value;
+    var wrap = e.target.closest(".q");
+    if (e.target.value.trim()) wrap.classList.add("filled");
+    else wrap.classList.remove("filled");
+    renderBadge(wrap, QMAP[key], e.target.value);
+    updateProgress();
+
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () { persist(); flashSaved(); }, 500);
+  }
+
+  function persist() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (err) {}
+  }
+  function loadData() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+    catch (err) { return {}; }
+  }
+  function flashSaved() {
+    saver.classList.add("show");
+    if (saverTimer) clearTimeout(saverTimer);
+    saverTimer = setTimeout(function () { saver.classList.remove("show"); }, 1400);
+  }
+
+  // ---- Progress (based on essence questions = Luis's real to-do) ----
+  function updateProgress() {
+    var answered = 0;
+    essenceKeys.forEach(function (k) {
+      var v = data[k];
+      if (v && v.trim()) answered++;
+    });
+    var total = essenceKeys.length;
+    var pct = total ? Math.round((answered / total) * 100) : 0;
+    barFill.style.width = pct + "%";
+    pctLabel.textContent = answered + "/" + total;
+
+    SECTIONS.forEach(function (s) {
+      var link = railList.querySelector('a[data-sec="' + s.id + '"]');
+      if (!link) return;
+      var all = s.questions.every(function (q) {
+        var v = data[s.id + "." + q.id];
+        return v && v.trim();
+      });
+      link.classList.toggle("done", all);
+    });
+  }
+
+  // ---- Rail active state on scroll ----
+  var railLinks = Array.prototype.slice.call(railList.querySelectorAll("a"));
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id.replace("sec-", "");
+        railLinks.forEach(function (l) { l.classList.toggle("active", l.dataset.sec === id); });
+      }
+    });
+  }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+  SECTIONS.forEach(function (s) {
+    var el = document.getElementById("sec-" + s.id);
+    if (el) observer.observe(el);
+  });
+
+  // ---- Export ----
+  function buildMarkdown() {
+    var lines = [];
+    lines.push("# Respuestas — Nueva web AOAC LATAM & Caribbean");
+    lines.push("");
+    var answered = 0;
+    essenceKeys.forEach(function (k) { if (data[k] && data[k].trim()) answered++; });
+    lines.push("_Esencia respondida: " + answered + " de " + essenceKeys.length + " preguntas clave._");
+    lines.push("_Nota: las respuestas marcadas como “borrador por revisar” son sugerencias generadas a partir de información pública; hay que verificarlas antes de publicar._");
+    lines.push("");
+    SECTIONS.forEach(function (s, si) {
+      lines.push("## " + (si + 1) + ". " + s.title);
+      lines.push("_" + s.page + "_");
+      lines.push("");
+      s.questions.forEach(function (q) {
+        var key = s.id + "." + q.id;
+        var v = (data[key] || "").trim();
+        var sug = (q.suggested || "").trim();
+        var tag = "";
+        if (q.essence && !v) tag = " _(pendiente — tu voz)_";
+        else if (q.suggested && v && v === sug) tag = " _(borrador por revisar)_";
+        lines.push("**" + q.label + "**" + tag);
+        lines.push(v ? v : "_(pendiente)_");
+        lines.push("");
+      });
+    });
+    return lines.join("\n");
+  }
+
+  function refreshPreview() { preview.textContent = buildMarkdown(); }
+  document.getElementById("refreshBtn").addEventListener("click", refreshPreview);
+
+  document.getElementById("copyBtn").addEventListener("click", function () {
+    var text = buildMarkdown();
+    refreshPreview();
+    var btn = this;
+    function ok() { btn.textContent = "✓ Copiado"; setTimeout(function () { btn.textContent = "📋 Copiar todo"; }, 1800); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok).catch(function () { legacyCopy(text, ok); });
+    } else { legacyCopy(text, ok); }
+  });
+  function legacyCopy(text, cb) {
+    var ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); cb(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  document.getElementById("downloadBtn").addEventListener("click", function () {
+    var text = buildMarkdown();
+    var blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = "respuestas-web-aoac.md";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", function () {
+    if (!confirm("Esto restablece TODO a los borradores originales y borra tus ediciones en este navegador. ¿Continuar?")) return;
+    data = {};
+    SECTIONS.forEach(function (s) {
+      s.questions.forEach(function (q) {
+        var key = s.id + "." + q.id;
+        if (q.suggested) data[key] = q.suggested;
+      });
+    });
+    persist();
+    root.querySelectorAll(".q").forEach(function (wrap) {
+      var f = wrap.querySelector("input, textarea");
+      if (!f) return;
+      var key = f.dataset.key;
+      f.value = data[key] || "";
+      if (f.value.trim()) wrap.classList.add("filled"); else wrap.classList.remove("filled");
+      renderBadge(wrap, QMAP[key], f.value);
+    });
+    updateProgress();
+    refreshPreview();
+  });
+
+  // ---- Essence-only filter ----
+  var essenceBtn = document.getElementById("essenceBtn");
+  function applyFilter(on) {
+    app.classList.toggle("essence-only", on);
+    essenceBtn.classList.toggle("active", on);
+    essenceBtn.setAttribute("aria-pressed", on ? "true" : "false");
+    essenceBtn.textContent = on ? "Ver todo" : "⭐ Solo Esencia";
+    try { localStorage.setItem(FILTER_KEY, on ? "1" : "0"); } catch (e) {}
+  }
+  essenceBtn.addEventListener("click", function () {
+    applyFilter(!app.classList.contains("essence-only"));
+  });
+  var storedFilter = "0";
+  try { storedFilter = localStorage.getItem(FILTER_KEY) || "0"; } catch (e) {}
+  applyFilter(storedFilter === "1");
+
+  // ---- Theme toggle ----
+  var themeBtn = document.getElementById("themeBtn");
+  function applyStoredTheme() {
+    var t = null;
+    try { t = localStorage.getItem(THEME_KEY); } catch (e) {}
+    if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t);
+  }
+  applyStoredTheme();
+  themeBtn.addEventListener("click", function () {
+    var cur = document.documentElement.getAttribute("data-theme");
+    if (!cur) cur = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    var next = cur === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  });
+
+  // ---- init ----
+  updateProgress();
+  refreshPreview();
+})();
+</script>
+</body>
+</html>
