@@ -210,6 +210,14 @@
   .btn-danger:hover { color: var(--accent); border-color: var(--accent); }
   .btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--focus) 45%, transparent); outline-offset: 2px; }
   .preview { width: 100%; min-height: 200px; max-height: 380px; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.6; color: var(--ink); background: var(--ground); border: 1.5px solid var(--line); border-radius: 12px; padding: 16px; overflow: auto; white-space: pre-wrap; }
+  .send-status { font-size: 14px; margin: 0 0 16px; min-height: 1.2em; }
+  .send-status.ok { color: var(--ok); font-weight: 600; }
+  .send-status.err { color: var(--accent); font-weight: 600; }
+  .send-status.busy { color: var(--ink-muted); }
+  .sender-field { max-width: 420px; margin-bottom: 18px; }
+  .sender-field label { display:block; font-weight:600; font-size:14px; margin-bottom:6px; }
+  .sender-field input { width:100%; font-family:var(--font-sans); font-size:15px; color:var(--ink); background:var(--ground); border:1.5px solid var(--line); border-radius:10px; padding:11px 13px; }
+  .sender-field input:focus { outline:none; border-color:var(--focus); box-shadow:0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent); }
 
   footer.meta { grid-column: 1 / -1; text-align: center; color: var(--ink-muted); font-size: 12.5px; margin-top: 34px; }
   footer.meta a { color: var(--accent); }
@@ -258,14 +266,20 @@
     </main>
 
     <section class="export" id="exportPanel">
-      <h2>Exportar respuestas</h2>
-      <p>Genera un documento con todas tus respuestas (incluidos los borradores). Cópialo o descárgalo y envíalo a quien redactará la web. Los borradores sin tocar se marcan como “por revisar” y las preguntas de esencia sin responder como “pendientes”.</p>
+      <h2>Enviar respuestas</h2>
+      <p>Cuando termines, pulsa <b>Enviar mis respuestas</b> y le llegarán por correo al equipo automáticamente. Como respaldo, también puedes copiarlas o descargarlas. Los borradores sin tocar se marcan como “por revisar” y las preguntas de esencia sin responder como “pendientes”.</p>
+      <div class="sender-field">
+        <label for="senderName">Tu nombre (para saber quién responde)</label>
+        <input type="text" id="senderName" placeholder="Ej.: Luis Fernández" autocomplete="name">
+      </div>
       <div class="actions">
-        <button class="btn btn-primary" id="copyBtn">📋 Copiar todo</button>
+        <button class="btn btn-primary" id="sendBtn">📧 Enviar mis respuestas</button>
+        <button class="btn btn-ghost" id="copyBtn">📋 Copiar todo</button>
         <button class="btn btn-ghost" id="downloadBtn">⬇︎ Descargar (.md)</button>
         <button class="btn btn-ghost" id="refreshBtn">↻ Actualizar vista previa</button>
         <button class="btn btn-danger" id="resetBtn">Restablecer borradores</button>
       </div>
+      <p id="sendStatus" class="send-status" role="status" aria-live="polite"></p>
       <div class="preview" id="preview" aria-live="polite"></div>
     </section>
 
@@ -921,6 +935,49 @@
     a.href = url; a.download = "respuestas-web-aoac.md";
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  });
+
+  // ---- Enviar por correo (FormSubmit, sin backend) ----
+  var ADMIN_EMAIL = "capelanus@gmail.com";
+  var FORM_ENDPOINT = "https://formsubmit.co/ajax/" + ADMIN_EMAIL;
+  var sendStatus = document.getElementById("sendStatus");
+  var senderName = document.getElementById("senderName");
+  try { senderName.value = localStorage.getItem("aoac_sender") || ""; } catch (e) {}
+  senderName.addEventListener("input", function () {
+    try { localStorage.setItem("aoac_sender", senderName.value); } catch (e) {}
+  });
+  function setSendStatus(cls, msg) { sendStatus.className = "send-status " + cls; sendStatus.textContent = msg; }
+  document.getElementById("sendBtn").addEventListener("click", function () {
+    var btn = this;
+    var nombre = (senderName.value || "").trim() || "Sin nombre";
+    var answered = 0;
+    essenceKeys.forEach(function (k) { if (data[k] && data[k].trim()) answered++; });
+    persist();
+    setSendStatus("busy", "Enviando…");
+    btn.disabled = true;
+    fetch(FORM_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        _subject: "Cuestionario nueva web AOAC — respuestas de " + nombre,
+        _template: "box",
+        nombre: nombre,
+        esencia: answered + " de " + essenceKeys.length + " preguntas de esencia respondidas",
+        respuestas: buildMarkdown()
+      })
+    })
+    .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }, function () { return { ok: r.ok, j: {} }; }); })
+    .then(function (res) {
+      if (res.ok && (res.j.success === true || res.j.success === "true")) {
+        setSendStatus("ok", "✅ ¡Enviado! Tus respuestas llegaron al equipo. Muchas gracias.");
+      } else {
+        setSendStatus("err", "No se pudo enviar automáticamente. Usa “Descargar (.md)” y envíalo por correo. Detalle: " + (res.j.message || "error desconocido"));
+      }
+    })
+    .catch(function () {
+      setSendStatus("err", "No hubo conexión para enviar. Usa “Descargar (.md)” y envíalo por correo.");
+    })
+    .then(function () { btn.disabled = false; });
   });
 
   document.getElementById("resetBtn").addEventListener("click", function () {
