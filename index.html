@@ -306,14 +306,15 @@
     </main>
 
     <section class="export" id="exportPanel">
-      <h2>Enviar todo de una vez</h2>
-      <p>Puedes enviar <b>bloque por bloque</b> con el botón al final de cada sección (perfecto para avanzar en varios días). O envía <b>todo junto</b> desde aquí. Como respaldo, también puedes copiar o descargar. Los borradores sin tocar se marcan como “por revisar”.</p>
+      <h2>Enviar para revisión final</h2>
+      <p>Cuando termines, pulsa <b>Enviar para revisión final</b>: tus respuestas llegan por correo al equipo <b>junto con un enlace para reabrir este mismo formulario</b> con todo lo que escribiste — para revisarlo y volver a enviarlo. Tus respuestas <b>quedan guardadas</b> en este navegador; puedes volver cuando quieras. También puedes <b>copiar el enlace del formulario</b> para compartirlo.</p>
       <div class="actions">
-        <button class="btn btn-primary" id="sendBtn">📧 Enviar TODO</button>
+        <button class="btn btn-primary" id="sendBtn">✅ Enviar para revisión final</button>
+        <button class="btn btn-ghost" id="linkBtn">🔗 Copiar enlace del formulario</button>
         <button class="btn btn-ghost" id="copyBtn">📋 Copiar todo</button>
         <button class="btn btn-ghost" id="downloadBtn">⬇︎ Descargar (.md)</button>
-        <button class="btn btn-ghost" id="refreshBtn">↻ Actualizar vista previa</button>
-        <button class="btn btn-danger" id="resetBtn">Restablecer borradores</button>
+        <button class="btn btn-ghost" id="refreshBtn">↻ Vista previa</button>
+        <button class="btn btn-danger" id="resetBtn">Restablecer</button>
       </div>
       <p id="sendStatus" class="send-status" role="status" aria-live="polite"></p>
       <div class="preview" id="preview" aria-live="polite"></div>
@@ -749,6 +750,38 @@
   });
   persist();
 
+  // ---- Formulario portátil: guardar/reabrir el mismo formulario con las respuestas ----
+  function b64encode(str) { return btoa(unescape(encodeURIComponent(str))); }
+  function b64decode(b64) { return decodeURIComponent(escape(atob(b64))); }
+  function currentDeltas() {
+    var out = {};
+    Object.keys(data).forEach(function (k) {
+      var def = (QMAP[k] && QMAP[k].suggested) || "";
+      var val = data[k] || "";
+      if (val.trim() !== "" && val !== def) out[k] = data[k];
+    });
+    return out;
+  }
+  function makeRestoreLink() {
+    var sender = "";
+    try { sender = (document.getElementById("senderName") || {}).value || ""; } catch (e) {}
+    var payload = { v: 3, sender: sender, d: currentDeltas() };
+    return location.origin + location.pathname + "#f=" + b64encode(JSON.stringify(payload));
+  }
+  (function restoreFromLink() {
+    try {
+      var m = (location.hash || "").match(/[#&]f=([^&]+)/);
+      if (!m) return;
+      var payload = JSON.parse(b64decode(m[1]));
+      if (payload && payload.d) { Object.keys(payload.d).forEach(function (k) { data[k] = payload.d[k]; }); }
+      if (payload && typeof payload.sender === "string" && payload.sender) {
+        try { localStorage.setItem("aoac_sender", payload.sender); } catch (e) {}
+      }
+      persist();
+      window.__aoacRestored = true;
+    } catch (e) {}
+  })();
+
   // ---- Build DOM ----
   SECTIONS.forEach(function (section, si) {
     var num = String(si + 1).padStart(2, "0");
@@ -1068,16 +1101,18 @@
     var answered = 0;
     essenceKeys.forEach(function (k) { if (data[k] && data[k].trim()) answered++; });
     persist();
+    var enlace = makeRestoreLink();
     setSendStatus("busy", "Enviando…");
     btn.disabled = true;
     fetch(FORM_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify({
-        _subject: "Cuestionario nueva web AOAC — respuestas de " + nombre,
+        _subject: "AOAC — Formulario para REVISIÓN FINAL — " + nombre,
         _template: "box",
         nombre: nombre,
         esencia: answered + " de " + essenceKeys.length + " preguntas de esencia respondidas",
+        enlace_para_reabrir_el_formulario: enlace,
         respuestas: buildMarkdown()
       })
     })
@@ -1087,7 +1122,7 @@
         SECTIONS.forEach(function (s) { markSectionSent(s); });
         persistSent();
         SECTIONS.forEach(updateBlockStatus);
-        setSendStatus("ok", "✅ ¡Enviado TODO! Tus respuestas llegaron al equipo. Muchas gracias.");
+        setSendStatus("ok", "✅ ¡Enviado para revisión final! El correo incluye un enlace para reabrir este mismo formulario con tus respuestas y volver a revisarlo/enviarlo.");
       } else {
         setSendStatus("err", "No se pudo enviar automáticamente. Usa “Descargar (.md)” y envíalo por correo. Detalle: " + (res.j.message || "error desconocido"));
       }
@@ -1096,6 +1131,16 @@
       setSendStatus("err", "No hubo conexión para enviar. Usa “Descargar (.md)” y envíalo por correo.");
     })
     .then(function () { btn.disabled = false; });
+  });
+
+  var linkBtn = document.getElementById("linkBtn");
+  if (linkBtn) linkBtn.addEventListener("click", function () {
+    persist();
+    var url = makeRestoreLink();
+    var ok = function () { setSendStatus("ok", "🔗 Enlace copiado. Ábrelo o compártelo: abre este formulario con tus respuestas para revisarlo y volver a enviarlo."); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(ok, function () { window.prompt("Copia el enlace del formulario:", url); });
+    } else { window.prompt("Copia el enlace del formulario:", url); }
   });
 
   document.getElementById("resetBtn").addEventListener("click", function () {
@@ -1159,6 +1204,12 @@
   updateProgress();
   refreshPreview();
   SECTIONS.forEach(updateBlockStatus);
+  if (window.__aoacRestored) {
+    var sv = document.getElementById("saver");
+    if (sv) { sv.textContent = "Formulario restaurado ✓"; sv.classList.add("show"); setTimeout(function () { sv.classList.remove("show"); sv.textContent = "Guardado ✓"; }, 3000); }
+    try { setSendStatus("ok", "Formulario cargado desde un enlace: revisa las respuestas y vuelve a enviarlo para la revisión final."); } catch (e) {}
+    try { if (history && history.replaceState) history.replaceState(null, "", location.pathname); } catch (e) {}
+  }
 })();
 </script>
 </body>
