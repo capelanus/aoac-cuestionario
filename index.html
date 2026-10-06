@@ -171,7 +171,7 @@
   .qbadge.essence { color: #fff; background: var(--accent); }
   .qbadge.draft { color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface)); border: 1px solid color-mix(in srgb, var(--primary) 26%, transparent); }
   .qbadge.edited { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--ok) 34%, transparent); }
-  .qbadge.todo { color: var(--ink-muted); background: var(--surface-2); border: 1px solid var(--line); }
+  .qbadge.todo { color: #C77A1A; background: color-mix(in srgb, #E8912A 15%, var(--surface)); border: 1px solid color-mix(in srgb, #E8912A 45%, transparent); }
   .q .hint { font-size: 13px; color: var(--ink-muted); margin: 0 0 10px; }
   .q .hint b { color: var(--primary); font-weight: 600; }
   .q input[type="text"], .q textarea {
@@ -281,19 +281,19 @@
 
   <div class="shell">
     <header class="hero">
-      <div class="eyebrow">Cuestionario de contenido · Rediseño 2026</div>
-      <h1>La esencia de la AOAC, en tus palabras</h1>
-      <p>Ya redactamos <b>borradores para la mayoría de las preguntas</b>, a partir de la información pública de la sección y de Cetox. En esas solo tienes que leer y ajustar lo que no cuadre — o dejarlas como están.</p>
-      <p>Concentra tu energía en las preguntas marcadas <b style="color:var(--accent)">⭐ Esencia</b>: ahí no buscamos datos generales, sino <b>tu voz</b> — lo que solo tú puedes contar. Empieza por la primera sección. Con el botón <b>“Solo Esencia”</b> arriba puedes ver únicamente esas.</p>
+      <div class="eyebrow">Cuestionario de contenido · Para el presidente</div>
+      <h1>Luis, tu parte para cerrar la nueva web</h1>
+      <p>Administración ya completó las secciones de contenido — están <b>pre-cargadas abajo</b> con la información real (CETOX LAB, bios del equipo, etc.). Tu trabajo es <b>revisar y confirmar</b>, y completar lo que falte.</p>
+      <p>Lo más importante es tuyo: las preguntas <b style="color:var(--accent)">⭐ Esencia</b> (la primera sección) — ahí va <b>tu voz</b>, lo que solo tú puedes contar. Y donde veas <b>◻ Falta completar</b> hace falta un dato real (teléfono, costos, redes, cifras…). Con el botón <b>“Solo Esencia”</b> arriba ves solo tu parte.</p>
       <div class="hero legend">
         <span><i class="swatch" style="background:var(--accent)"></i> ⭐ Esencia · tu voz</span>
-        <span><i class="swatch" style="background:color-mix(in srgb, var(--primary) 40%, var(--surface));border:1px solid var(--primary)"></i> ✎ Borrador · revísalo</span>
-        <span><i class="swatch" style="background:var(--ok)"></i> ✓ Ajustado por ti</span>
+        <span><i class="swatch" style="background:color-mix(in srgb, var(--ok) 55%, var(--surface));border:1px solid var(--ok)"></i> ✓ De administración · revisa</span>
+        <span><i class="swatch" style="background:#E8912A"></i> ◻ Falta completar</span>
       </div>
       <div class="note"><span>💾</span><span><b>Se guarda solo en tu navegador.</b> Puedes cerrar y volver otro día sin perder nada. Cuando termines un bloque, pulsa <b>“Enviar este bloque”</b> al final de la sección y le llega al equipo por correo. No hace falta completar todo de una vez.</span></div>
       <div class="sender-field hero-name">
-        <label for="senderName">¿Cómo te llamas? (para saber quién responde)</label>
-        <input type="text" id="senderName" placeholder="Ej.: Luis Fernández" autocomplete="name">
+        <label for="senderName">Tu nombre (para firmar tus respuestas)</label>
+        <input type="text" id="senderName" placeholder="Luis Fernández" autocomplete="name">
       </div>
     </header>
 
@@ -445,7 +445,7 @@
         { id: "bio_luis", type: "textarea", long: true,
           label: "Bio — Luis Fernández Anaya (Presidente, Cetox, Perú)",
           hint: "<b>Conviene enlazar a Cetox</b> como su laboratorio.",
-          suggested: "Luis Alberto Fernández Anaya preside la AOAC LATAM & Caribbean Section. Licenciado en Derecho y Ciencias Políticas, con estudios de doctorado en Ciencias Políticas por la Universidad Complutense de Madrid. Es director de Cetox – Centro Toxicológico S.A.C., laboratorio peruano acreditado con más de 20 años de trayectoria en análisis toxicológico y de calidad. Desde la presidencia impulsa la revitalización de la sección regional. (Confirmar cargos y trayectoria adicionales; añadir LinkedIn.)" },
+          suggested: "Luis Alberto Fernández Anaya preside la AOAC LATAM & Caribbean Section. Licenciado en Derecho y Ciencias Políticas, con estudios de doctorado en Ciencias Políticas por la Universidad Complutense de Madrid. Es director de CETOX LAB – Centro Toxicológico S.A.C., laboratorio peruano acreditado con más de 23 años de trayectoria en análisis toxicológico y de calidad. Desde la presidencia impulsa la revitalización de la sección regional. (Confirmar cargos y trayectoria adicionales; añadir LinkedIn.)" },
         { id: "bio_fernando", type: "textarea",
           label: "Bio — Fernando Silva (Vicepresidente, Nestlé, Brasil)",
           hint: "Revisar y confirmar datos.",
@@ -456,8 +456,8 @@
           suggested: "Constanza Vergara es Secretaria de la sección. Médica veterinaria y candidata a doctora en ciencias veterinarias; se desempeña como asesora en medidas sanitarias y fitosanitarias en la Cancillería de Chile, con más de una década de experiencia previa en la agencia chilena de inocuidad alimentaria (ACHIPIA). (Confirmar datos y foto.)" },
         { id: "bio_reddy", type: "textarea",
           label: "Bio — Reddy Campos Soto (Tesorero, Cetox, Perú)",
-          hint: "Es la bio más incompleta hoy: importante completarla con Reddy.",
-          suggested: "Reddy Fortunato Campos Soto es Tesorero de la sección y forma parte del equipo de Cetox (Perú). (Falta información: formación, cargo en Cetox, trayectoria, foto y LinkedIn — completar directamente con Reddy.)" },
+          hint: "Casi completa; solo falta la foto y el LinkedIn.",
+          suggested: "Reddy Fortunato Campos Soto es Tesorero de la Sección América Latina y el Caribe y forma parte del equipo de CETOX LAB (Perú). Es Químico Farmacéutico y Jefe del Departamento de Biología de CETOX LAB. Cuenta con estudios en la Norma ISO/IEC 17025 y Buenas Prácticas de Laboratorio (BPL), y es miembro de la Asociación Peruana de Toxicología (APTOX). (Falta información: foto y LinkedIn)" },
         { id: "otros_miembros", type: "textarea",
           label: "¿Hay otros miembros del comité, asesores o coordinadores por país?",
           hint: "Cuantos más perfiles reales, mejor.",
@@ -525,7 +525,7 @@
         { id: "beneficio_cetox", type: "textarea", essence: true,
           label: "¿Los miembros tendrán algún beneficio ligado a Cetox u otros aliados?",
           hint: "Palanca fuerte de sinergia y conversión (descuentos, cupos en cursos).",
-          suggested: "(Definir si los miembros tendrán algún beneficio concreto ligado a Cetox u otros aliados —por ejemplo descuentos en análisis o cupos en cursos—. Es una de las formas más potentes de enlazar ambas webs y dar razones para asociarse.)" }
+          suggested: "(Definir si los miembros tendrán algún beneficio concreto ligado a CETOX LAB u otros aliados —por ejemplo descuentos en análisis o cupos en cursos—. Es una de las formas más potentes de enlazar ambas webs y dar razones para asociarse.)" }
       ]
     },
     {
@@ -557,7 +557,7 @@
         { id: "colaboracion_cetox", type: "textarea",
           label: "¿Qué actividades se hacen o podrían hacerse en conjunto con Cetox?",
           hint: "<b>Coorganizar cursos alimenta tráfico entre ambas webs.</b>",
-          suggested: "Cetox ya colabora como aliado (por ejemplo, el curso de toxicología enlaza a su blog). Se pueden coorganizar cursos, webinars técnicos y publicaciones que aporten valor a los miembros y generen tráfico entre ambas webs. (Ajustar según lo que definan.)" }
+          suggested: "CETOX LAB ya colabora como aliado (por ejemplo, el curso de toxicología enlaza a su blog). Se pueden coorganizar cursos, webinars técnicos y publicaciones que aporten valor a los miembros y generen tráfico entre ambas webs. (Ajustar según lo que definan.)" }
       ]
     },
     {
@@ -569,7 +569,7 @@
         { id: "cetox_desc", type: "textarea",
           label: "¿Cómo debe presentarse Cetox como aliado?",
           hint: "<b>Este bloque debe enlazar a la web de Cetox.</b>",
-          suggested: "Cetox – Centro Toxicológico S.A.C. es un laboratorio peruano acreditado (INACAL, LE-044) con más de 20 años de experiencia en toxicología y servicios analíticos. Cuenta con tres laboratorios especializados —Química, Biología y Microbiología— y trabaja bajo normas NTP, USP, AOAC e ISO. Como aliado de la sección, representa el tipo de laboratorio que lleva a la práctica los estándares que promueve AOAC. (Enlazar a la web de Cetox.)" },
+          suggested: "CETOX LAB – Centro Toxicológico S.A.C. es un laboratorio peruano acreditado (INACAL, LE-044) con más de 23 años de experiencia en toxicología y servicios analíticos. Cuenta con tres laboratorios especializados —Química, Biología y Microbiología— y trabaja bajo normas NTP, USP, AOAC e ISO. Como aliado de la sección, representa el tipo de laboratorio que lleva a la práctica los estándares que promueve AOAC. (Enlazar a la web de Cetox.)" },
         { id: "otros_aliados", type: "textarea",
           label: "¿Qué otros auspiciadores, aliados o instituciones colaboran?",
           hint: "Cada aliado es una oportunidad de enlace externo (SEO).",
@@ -593,7 +593,7 @@
         { id: "rol_cetox", type: "textarea", long: true,
           label: "¿Cuál es el rol de Cetox dentro del ecosistema AOAC en la región?",
           hint: "Esta narrativa hace natural el enlace.",
-          suggested: "En el ecosistema de la sección, AOAC aporta la autoridad y los estándares (métodos validados) y laboratorios como Cetox los aplican en la práctica diaria, con acreditación y rigor. Esa relación —el estándar y su aplicación— hace natural y creíble el vínculo entre ambas organizaciones." },
+          suggested: "En el ecosistema de la sección, AOAC aporta la autoridad y los estándares (métodos validados) y laboratorios como CETOX LAB los aplican en la práctica diaria, con acreditación y rigor. Esa relación —el estándar y su aplicación— hace natural y creíble el vínculo entre ambas organizaciones." },
         { id: "que_enlazar_a_cetox", type: "textarea",
           label: "Desde AOAC → Cetox: ¿qué tiene sentido enlazar?",
           hint: "",
@@ -605,11 +605,11 @@
         { id: "contenido_conjunto", type: "textarea",
           label: "¿Qué contenido conjunto podrían publicar?",
           hint: "Contenido cruzado = SEO y tráfico compartido.",
-          suggested: "Artículos y webinars co-marca, por ejemplo “Cómo se valida un método de residuos de plaguicidas según AOAC — caso Cetox”, además de guías descargables y notas técnicas que posicionen a ambas y compartan tráfico." },
+          suggested: "Artículos y webinars co-marca, por ejemplo “Cómo se valida un método de residuos de plaguicidas según AOAC — caso CETOX LAB”, además de guías descargables y notas técnicas que posicionen a ambas y compartan tráfico." },
         { id: "limites", type: "textarea", essence: true,
           label: "¿Hay algún límite o cuidado en la relación AOAC–Cetox que debamos respetar?",
           hint: "AOAC es imparcial: conviene definir cómo manejar esto para evitar conflicto de interés.",
-          suggested: "AOAC es una asociación imparcial, por lo que la relación con Cetox debe presentarse con transparencia (aliado/miembro), sin que parezca que la sección es una extensión comercial del laboratorio. (Confirmar cómo prefieres manejar este equilibrio.)" }
+          suggested: "AOAC es una asociación imparcial, por lo que la relación con CETOX LAB debe presentarse con transparencia (aliado/miembro), sin que parezca que la sección es una extensión comercial del laboratorio. (Confirmar cómo prefieres manejar este equilibrio.)" }
       ]
     },
     {
@@ -637,7 +637,7 @@
         { id: "palabras_clave", type: "textarea",
           label: "¿Con qué frases te gustaría que la web aparezca en Google?",
           hint: "La base de la estrategia de <b>palabras clave</b>.",
-          suggested: "métodos AOAC · AOAC Latinoamérica · inocuidad alimentaria · validación de métodos analíticos · ensayos de aptitud · acreditación ISO 17025 · análisis de contaminantes en alimentos · membresía AOAC. (Añade las que uses tú.)" }
+          suggested: "métodos AOAC · AOAC Latinoamérica · inocuidad alimentaria · validación de métodos analíticos · ensayos de aptitud · acreditación ISO 17025 · análisis de contaminantes en alimentos · membresía AOAC · CETOX LAB. (Añade las que uses tú.)" }
       ]
     },
     {
@@ -717,7 +717,7 @@
     }
   ];
 
-  var STORAGE_KEY = "aoac_cuestionario_v2";
+  var STORAGE_KEY = "aoac_cuestionario_v3";
   var THEME_KEY = "aoac_cuestionario_theme";
   var FILTER_KEY = "aoac_cuestionario_filter";
 
@@ -850,19 +850,16 @@
     var b = wrap.querySelector(".qbadge");
     if (!b) return;
     var v = (value || "").trim();
+    var isPrompt = v.charAt(0) === "(";   // texto-guía tipo "(Indicar…)" = aún no es respuesta real
     if (q.essence) {
       b.className = "qbadge essence";
-      b.textContent = q.suggested ? "⭐ Esencia · haz tuyo el borrador" : "⭐ Esencia · tu voz";
+      b.textContent = (!v || isPrompt) ? "⭐ Esencia · tu voz" : "⭐ Esencia · hazla tuya";
       return;
     }
-    if (q.suggested) {
-      var sug = (q.suggested || "").trim();
-      if (v && v !== sug) { b.className = "qbadge edited"; b.textContent = "✓ Ajustado por ti"; }
-      else { b.className = "qbadge draft"; b.textContent = "✎ Borrador · revísalo"; }
-      return;
-    }
-    if (v) { b.className = "qbadge edited"; b.textContent = "✓ Respondido"; }
-    else { b.className = "qbadge todo"; b.textContent = "○ Por completar"; }
+    if (!v || isPrompt) { b.className = "qbadge todo"; b.textContent = "◻ Falta completar"; return; }
+    var sug = (q.suggested || "").trim();
+    if (v === sug) { b.className = "qbadge draft"; b.textContent = "✓ De administración · revisa"; }
+    else { b.className = "qbadge edited"; b.textContent = "✓ Editado por ti"; }
   }
 
   // ---- Input handling / autosave ----
@@ -1060,7 +1057,7 @@
   var FORM_ENDPOINT = "https://formsubmit.co/ajax/4eae380b817e9c48c55209476ba668aa";
   var sendStatus = document.getElementById("sendStatus");
   var senderName = document.getElementById("senderName");
-  try { senderName.value = localStorage.getItem("aoac_sender") || ""; } catch (e) {}
+  try { senderName.value = localStorage.getItem("aoac_sender") || "Luis Fernández"; } catch (e) {}
   senderName.addEventListener("input", function () {
     try { localStorage.setItem("aoac_sender", senderName.value); } catch (e) {}
   });
